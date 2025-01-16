@@ -13,14 +13,14 @@ This platform is a apointment for clinic, name Poliklinik, by using Laravel 11 a
    By use terminal/cmd
 
 ```sh
-git clone https://github.com/AnomID/PoliKlinik.git
+git clone https://github.com/fadlyian/poliklinik-bk
 ```
 
 2. Open Repository
    By use terminal/cmd
 
 ```sh
-cd Policlinic
+cd poliklinik-bk
 ```
 
 2. Check the .env file and configure with your device
@@ -94,7 +94,7 @@ Depublic uses a number of open source projects to work properly :
 This project app develope by 5 people
 | Name | Github |
 | ------ | ------ |
-| Anom | https://github.com/AnomID |
+| Fadly | https://github.com/fadyian |
 
 
 ## License MIT <img src="http://creativecommons.or.id/uploads/nc.large.png" alt="NonCommercial" width="20">
