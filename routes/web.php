@@ -37,7 +37,7 @@ Route::prefix('dokter')->name('dokter.')->group(function () {
 
 // Admin Routes (Protected by 'admin' middleware)
 Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [AdminDashboardController::class, 'dashboard-admin'])->name('dashboard');
+    // Route::get('/dashboard', [AdminDashboardController::class, 'dashboard-admin'])->name('dashboard');
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     // CRUD Routes untuk Dokter
     Route::resource('dokter', AdminDokterController::class);

@@ -33,12 +33,12 @@ class PasienController extends Controller
         ]);
 
         $pasien = Pasien::where('nama', $request->nama)
-                        ->where('alamat', $request->alamat)
-                        ->first();
+            ->where('alamat', $request->alamat)
+            ->first();
 
         if (!$pasien) {
             return redirect()->route('pasien.loginForm')
-                             ->withErrors(['nama' => 'Nama atau alamat tidak valid.']);
+                ->withErrors(['nama' => 'Nama atau alamat tidak valid.']);
         }
 
         // Set session for pasien
@@ -57,8 +57,8 @@ class PasienController extends Controller
 
         // Mencari nomor RM terakhir dengan prefix yang sama
         $lastPasien = Pasien::where('no_rm', 'like', $prefix . '-%')
-                        ->orderBy('no_rm', 'desc')
-                        ->first();
+            ->orderBy('no_rm', 'desc')
+            ->first();
 
         if ($lastPasien) {
             // Jika sudah ada, ambil nomor urut terakhir dan tambahkan 1
@@ -72,7 +72,7 @@ class PasienController extends Controller
         return $prefix . '-' . $newNumber;
     }
 
-       public function store(Request $request)
+    public function store(Request $request)
     {
         // Validate input
         $request->validate([
@@ -84,12 +84,12 @@ class PasienController extends Controller
 
         // Check for existing pasien
         $existingPasien = Pasien::where('nama', $request->nama)
-                                ->where('alamat', $request->alamat)
-                                ->first();
+            ->where('alamat', $request->alamat)
+            ->first();
 
         if ($existingPasien) {
             return redirect()->route('pasien.registerForm')
-                             ->withErrors(['nama' => 'Nama dan Alamat sudah terdaftar.']);
+                ->withErrors(['nama' => 'Nama dan Alamat sudah terdaftar.']);
         }
 
         // Generate new no_rm dengan format baru
@@ -106,5 +106,4 @@ class PasienController extends Controller
 
         return redirect()->route('pasien.loginForm')->with('success', 'Pasien berhasil didaftarkan!');
     }
-
 }

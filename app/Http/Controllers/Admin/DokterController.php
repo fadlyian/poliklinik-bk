@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class DokterController extends Controller
 {
-     //Tampilkan daftar semua dokter.
+    //Tampilkan daftar semua dokter.
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -18,7 +18,7 @@ class DokterController extends Controller
         $dokters = Dokter::with('poli')
             ->when($search, function ($query, $search) {
                 return $query->where('nama', 'LIKE', "%{$search}%")
-                             ->orWhere('alamat', 'LIKE', "%{$search}%");
+                    ->orWhere('alamat', 'LIKE', "%{$search}%");
             })
             ->orderBy('nama', 'asc') // Opsional: Mengurutkan berdasarkan nama
             ->paginate(10); // Menampilkan 10 data per halaman
@@ -27,14 +27,14 @@ class DokterController extends Controller
         return view('admin.dokter.index', compact('dokters', 'search'));
     }
 
-     //Tampilkan form untuk membuat dokter baru.
+    //Tampilkan form untuk membuat dokter baru.
     public function create()
     {
         $polis = Poli::all();
         return view('admin.dokter.create', compact('polis'));
     }
 
-     //Simpan dokter baru ke database.
+    //Simpan dokter baru ke database.
     public function store(Request $request)
     {
         // Validasi input
@@ -48,24 +48,23 @@ class DokterController extends Controller
         Dokter::create($request->all());
 
         return redirect()->route('admin.dokter.index')
-                         ->with('success', 'Dokter berhasil ditambahkan.');
+            ->with('success', 'Dokter berhasil ditambahkan.');
     }
 
-     // Tampilkan detail dokter.
+    // Tampilkan detail dokter.
     public function show(Dokter $dokter)
     {
         return view('admin.dokter.show', compact('dokter'));
     }
 
-
-     // Tampilkan form untuk mengedit dokter.
+    // Tampilkan form untuk mengedit dokter.
     public function edit(Dokter $dokter)
     {
         $polis = Poli::all();
         return view('admin.dokter.edit', compact('dokter', 'polis'));
     }
 
-     //Update dokter di database.
+    //Update dokter di database.
     public function update(Request $request, Dokter $dokter)
     {
         // Validasi input
@@ -79,9 +78,8 @@ class DokterController extends Controller
         $dokter->update($request->all());
 
         return redirect()->route('admin.dokter.index')
-                         ->with('success', 'Dokter berhasil diperbarui.');
+            ->with('success', 'Dokter berhasil diperbarui.');
     }
-
 
     // Hapus dokter dari database.
     public function destroy(Dokter $dokter)
@@ -89,6 +87,6 @@ class DokterController extends Controller
         $dokter->delete();
 
         return redirect()->route('admin.dokter.index')
-                         ->with('success', 'Dokter berhasil dihapus.');
+            ->with('success', 'Dokter berhasil dihapus.');
     }
 }
