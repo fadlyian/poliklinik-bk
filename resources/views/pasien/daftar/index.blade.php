@@ -44,10 +44,10 @@
                 <tr>
                   <td>{{ $index + 1 }}</td>
                   <td>{{ $daftar->pasien->no_rm }}</td>
-                  <td>{{ $daftar->jadwalPeriksa->dokter->poli->nama_poli }}</td>
-                  <td>{{ $daftar->jadwalPeriksa->dokter->nama }}</td>
-                  <td>{{ $daftar->jadwalPeriksa->hari }}</td>
-                  <td>{{ $daftar->jadwalPeriksa->jam_mulai }} - {{ $daftar->jadwalPeriksa->jam_selesai }}</td>
+                  <td>{{ $daftar->jadwalPeriksa->dokter->poli->nama_poli ?? null }}</td>
+                  <td>{{ $daftar->jadwalPeriksa->dokter->nama ?? null }}</td>
+                  <td>{{ $daftar->jadwalPeriksa->hari ?? null}}</td>
+                  <td>{{ $daftar->jadwalPeriksa->jam_mulai ?? null}} - {{ $daftar->jadwalPeriksa->jam_selesai ?? null}}</td>
                   <td>{{ $daftar->no_antrian }}</td>
                   <td>{{ $daftar->keluhan }}</td>
                   <td>

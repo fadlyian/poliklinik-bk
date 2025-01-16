@@ -51,14 +51,12 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
     // CRUD Routes untuk Obat
     Route::resource('obat', AdminObatController::class);
-
-
 });
 
 // Dokter Routes (Protected by 'dokter' middleware)
 Route::middleware('dokter')->prefix('dokter')->name('dokter.')->group(function () {
     Route::get('/dashboard', [DokterController::class, 'dashboard'])->name('dashboard');
-    Route::get('/poli', [DokterController::class, 'poli'])->name('poli');
+    // Route::get('/poli', [DokterController::class, 'poli'])->name('poli');
 
     // Jadwal
     Route::resource('jadwal', JadwalPeriksaController::class);
@@ -66,7 +64,7 @@ Route::middleware('dokter')->prefix('dokter')->name('dokter.')->group(function (
     // Route::post('/jadwal', [JadwalPeriksaController::class, 'store'])->name('jadwal.store');
 
     // Periksa
-    Route::get('periksa', [PeriksaPasienController::class, 'index'])->name('periksa.index');
+    // Route::get('periksa', [PeriksaPasienController::class, 'index'])->name('periksa.index');
     Route::get('/periksa', [PeriksaPasienController::class, 'index'])->name('periksa.index');
     Route::get('/periksa/create/{id}', [PeriksaPasienController::class, 'create'])->name('periksa.create');
     Route::post('/periksa', [PeriksaPasienController::class, 'store'])->name('periksa.store');
@@ -78,8 +76,6 @@ Route::middleware('dokter')->prefix('dokter')->name('dokter.')->group(function (
     // Profile
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-
-
 });
 
 // Pasien Routes (Protected by 'pasien' middleware)

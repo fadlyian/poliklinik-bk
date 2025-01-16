@@ -47,6 +47,4 @@ class DokterController extends Controller
         return redirect()->route('dokter.loginForm')
                          ->withErrors(['nama' => 'Nama atau alamat tidak valid.']);
     }
-
-
 }
