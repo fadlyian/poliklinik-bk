@@ -29,11 +29,13 @@ class DaftarPoliController extends Controller
                 'jp.jam_selesai AS jam_selesai',
                 'dp.no_antrian AS no_antrian',
                 'dp.keluhan AS keluhan',
+                DB::raw('COALESCE(periksa.id, 0) AS sudah_periksa'),
             ])
             ->leftJoin('pasien AS p', 'dp.id_pasien', '=', 'p.id')
             ->leftJoin('jadwal_periksa AS jp', 'dp.id_jadwal', '=', 'jp.id')
             ->leftJoin('dokter AS d', 'jp.id_dokter', '=', 'd.id')
             ->leftJoin('poli AS poli', 'd.id_poli', '=', 'poli.id')
+            ->leftJoin('periksa AS periksa', 'dp.id', '=', 'periksa.id_daftar_poli')
             ->where('dp.id_pasien', $pasien_id)
             ->get();
 
