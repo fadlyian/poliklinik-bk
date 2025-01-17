@@ -52,12 +52,14 @@
                   <td>{{ $daftar->keluhan }}</td>
                   <td>
                     <a href="{{ route('pasien.daftar.show', $daftar->daftar_poli_id) }}" class="btn btn-info btn-sm">Detail</a>
+                    @if($daftar->sudah_periksa == 0)
                     <a href="{{ route('pasien.daftar.edit', $daftar->daftar_poli_id) }}" class="btn btn-warning btn-sm">Edit</a>
                     <form action="{{ route('pasien.daftar.destroy', $daftar->daftar_poli_id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pendaftaran ini?');">
                       @csrf
                       @method('DELETE')
                       <button class="btn btn-danger btn-sm">Hapus</button>
                     </form>
+                    @endif
                   </td>
                 </tr>
               @endforeach
