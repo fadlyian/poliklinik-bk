@@ -7,6 +7,7 @@ use App\Models\DaftarPoli;
 use App\Models\JadwalPeriksa;
 use App\Models\Poli;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class DaftarPoliController extends Controller
@@ -16,9 +17,26 @@ class DaftarPoliController extends Controller
     public function index()
     {
         $pasien_id = session('pasien_id');
-        $daftarPoli = DaftarPoli::with(['pasien', 'jadwalPeriksa.dokter.poli'])
-            ->where('id_pasien', $pasien_id)
+
+        $daftarPoli = DB::table('daftar_poli as dp')
+            ->select([
+                'dp.id AS daftar_poli_id',
+                'p.no_rm AS no_rm',
+                'poli.nama_poli AS nama_poli',
+                'd.nama AS nama_dokter',
+                'jp.hari AS hari',
+                'jp.jam_mulai AS jam_mulai',
+                'jp.jam_selesai AS jam_selesai',
+                'dp.no_antrian AS no_antrian',
+                'dp.keluhan AS keluhan',
+            ])
+            ->leftJoin('pasien AS p', 'dp.id_pasien', '=', 'p.id')
+            ->leftJoin('jadwal_periksa AS jp', 'dp.id_jadwal', '=', 'jp.id')
+            ->leftJoin('dokter AS d', 'jp.id_dokter', '=', 'd.id')
+            ->leftJoin('poli AS poli', 'd.id_poli', '=', 'poli.id')
+            ->where('dp.id_pasien', $pasien_id)
             ->get();
+
 
         return view('pasien.daftar.index', compact('daftarPoli'));
     }
@@ -91,7 +109,7 @@ class DaftarPoliController extends Controller
 
         $polis = Poli::all();
         $selectedPoliId = $daftarPoli->jadwalPeriksa->dokter->poli->id;
-        $jadwalPeriksas = JadwalPeriksa::whereHas('dokter', function($query) use ($selectedPoliId) {
+        $jadwalPeriksas = JadwalPeriksa::whereHas('dokter', function ($query) use ($selectedPoliId) {
             $query->where('id_poli', $selectedPoliId);
         })->with('dokter')->get();
 
@@ -155,15 +173,14 @@ class DaftarPoliController extends Controller
         // Pastikan Poli ada
         $poli = Poli::find($poli_id);
         if (!$poli) {
-        Log::error('Poli tidak ditemukan: ' . $poli_id);
-        return response()->json(['error' => 'Poli tidak ditemukan'], 404);
+            Log::error('Poli tidak ditemukan: ' . $poli_id);
+            return response()->json(['error' => 'Poli tidak ditemukan'], 404);
         }
         // Ambil jadwal_periksa berdasarkan poli
-        $jadwal = JadwalPeriksa::whereHas('dokter', function($query) use ($poli_id) {
+        $jadwal = JadwalPeriksa::whereHas('dokter', function ($query) use ($poli_id) {
             $query->where('id_poli', $poli_id);
         })->with('dokter')->get();
         Log::info('Jumlah jadwal_periksa yang ditemukan: ' . $jadwal->count());
         return response()->json($jadwal);
     }
-
 }
