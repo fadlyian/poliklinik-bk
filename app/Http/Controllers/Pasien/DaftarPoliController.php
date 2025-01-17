@@ -122,7 +122,28 @@ class DaftarPoliController extends Controller
     // Menampilkan formulir untuk mengedit pendaftaran poli tertentu.
     public function edit($id)
     {
-        $daftarPoli = DaftarPoli::with(['jadwalPeriksa.dokter.poli'])->findOrFail($id);
+        // $daftarPoli = DaftarPoli::with(['jadwalPeriksa.dokter.poli'])->findOrFail($id);
+
+        $daftarPoli = DB::table('daftar_poli AS dp')
+            ->select([
+                'dp.id AS daftar_poli_id',
+                'dp.id_pasien AS id_pasien',
+                'dp.id_jadwal AS id_jadwal',
+                'p.no_rm AS no_rm',
+                'poli.nama_poli AS nama_poli',
+                'poli.id AS poli_id',
+                'jp.hari AS hari',
+                'jp.jam_mulai AS jam_mulai',
+                'jp.jam_selesai AS jam_selesai',
+                'd.nama AS nama_dokter',
+                'dp.keluhan AS keluhan',
+            ])
+            ->leftJoin('pasien AS p', 'dp.id_pasien', '=', 'p.id')
+            ->leftJoin('jadwal_periksa AS jp', 'dp.id_jadwal', '=', 'jp.id')
+            ->leftJoin('dokter AS d', 'jp.id_dokter', '=', 'd.id')
+            ->leftJoin('poli AS poli', 'd.id_poli', '=', 'poli.id')
+            ->where('dp.id', $id)
+            ->first();
 
         // Pastikan pendaftaran poli milik pasien yang sedang login
         if ($daftarPoli->id_pasien != session('pasien_id')) {
@@ -130,7 +151,7 @@ class DaftarPoliController extends Controller
         }
 
         $polis = Poli::all();
-        $selectedPoliId = $daftarPoli->jadwalPeriksa->dokter->poli->id;
+        $selectedPoliId = $daftarPoli->poli_id;
         $jadwalPeriksas = JadwalPeriksa::whereHas('dokter', function ($query) use ($selectedPoliId) {
             $query->where('id_poli', $selectedPoliId);
         })->with('dokter')->get();

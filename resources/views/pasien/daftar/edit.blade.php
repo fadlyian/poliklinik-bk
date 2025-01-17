@@ -21,14 +21,14 @@
       <h6 class="m-0 font-weight-bold text-primary">Form Edit Pendaftaran Poli</h6>
     </div>
     <div class="card-body">
-      <form action="{{ route('pasien.daftar.update', $daftarPoli->id) }}" method="POST">
+      <form action="{{ route('pasien.daftar.update', $daftarPoli->daftar_poli_id) }}" method="POST">
         @csrf
         @method('PUT')
 
         <!-- No. RM (Read-Only) -->
         <div class="form-group">
           <label for="no_rm">No. RM</label>
-          <input type="text" class="form-control" id="no_rm" name="no_rm" value="{{ $daftarPoli->pasien->no_rm }}" readonly>
+          <input type="text" class="form-control" id="no_rm" name="no_rm" value="{{ $daftarPoli->no_rm }}" readonly>
         </div>
 
         <!-- Pilih Poli -->
@@ -37,7 +37,7 @@
           <select class="form-control @error('id_poli') is-invalid @enderror" id="id_poli" name="id_poli" required>
             <option value="" disabled>Pilih Poli</option>
             @foreach($polis as $poli)
-              <option value="{{ $poli->id }}" {{ ($daftarPoli->jadwalPeriksa->dokter->poli->id == $poli->id) ? 'selected' : '' }}>{{ $poli->nama_poli }}</option>
+              <option value="{{ $poli->id }}" {{ ($daftarPoli->poli_id == $poli->id) ? 'selected' : '' }}>{{ $poli->nama_poli }}</option>
             @endforeach
           </select>
           @error('id_poli')
@@ -109,8 +109,8 @@
     });
 
     // Muat jadwal_periksa yang dipilih saat ini
-    @if(old('id_poli') || $daftarPoli->jadwalPeriksa->dokter->poli->id)
-      let selectedPoliId = "{{ old('id_poli', $daftarPoli->jadwalPeriksa->dokter->poli->id) }}";
+    @if(old('id_poli') || $daftarPoli->poli_id)
+      let selectedPoliId = "{{ old('id_poli', $daftarPoli->poli_id) }}";
       let selectedJadwalId = "{{ old('id_jadwal', $daftarPoli->id_jadwal) }}";
 
       idPoliSelect.value = selectedPoliId;
