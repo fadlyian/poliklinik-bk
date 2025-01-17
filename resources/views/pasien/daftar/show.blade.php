@@ -18,15 +18,15 @@
       <table class="table table-bordered">
         <tr>
           <th>No. RM</th>
-          <td>{{ $daftarPoli->pasien->no_rm }}</td>
+          <td>{{ $daftarPoli->no_rm }}</td>
         </tr>
         <tr>
           <th>Poli</th>
-          <td>{{ $daftarPoli->jadwalPeriksa->dokter->poli->nama_poli }}</td>
+          <td>{{ $daftarPoli->nama_poli }}</td>
         </tr>
         <tr>
           <th>Jadwal Periksa</th>
-          <td>{{ $daftarPoli->jadwalPeriksa->hari }} - {{ $daftarPoli->jadwalPeriksa->jam_mulai }} - {{ $daftarPoli->jadwalPeriksa->jam_selesai }}</td>
+          <td>{{ $daftarPoli->hari }} - {{ $daftarPoli->jam_mulai }} - {{ $daftarPoli->jam_selesai }}</td>
         </tr>
         <tr>
           <th>Keluhan</th>
@@ -38,15 +38,15 @@
         </tr>
         <tr>
           <th>Tanggal Periksa</th>
-          <td>{{ $daftarPoli->periksa->tgl_periksa ?? '-' }}</td>
+          <td>{{ $daftarPoli->tgl_periksa ?? '-' }}</td>
         </tr>
         <tr>
           <th>Catatan</th>
-          <td>{{ $daftarPoli->periksa->catatan ?? '-' }}</td>
+          <td>{{ $daftarPoli->catatan ?? '-' }}</td>
         </tr>
         <tr>
           <th>Biaya Periksa</th>
-          <td>{{ $daftarPoli->periksa->biaya_periksa ?? '-' }}</td>
+          <td>{{ $daftarPoli->biaya_periksa ?? '-' }}</td>
         </tr>
       </table>
 

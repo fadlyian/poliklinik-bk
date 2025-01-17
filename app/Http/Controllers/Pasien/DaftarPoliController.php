@@ -86,8 +86,28 @@ class DaftarPoliController extends Controller
     // Menampilkan detail pendaftaran poli tertentu.
     public function show($id)
     {
-        $daftarPoli = DaftarPoli::with(['pasien', 'jadwalPeriksa.dokter.poli', 'periksa'])
-            ->findOrFail($id);
+        $daftarPoli = DB::table('daftar_poli AS dp')
+            ->select([
+                'dp.id AS daftar_poli_id',
+                'dp.id_pasien AS id_pasien',
+                'p.no_rm AS no_rm',
+                'poli.nama_poli AS nama_poli',
+                'jp.hari AS hari',
+                'jp.jam_mulai AS jam_mulai',
+                'jp.jam_selesai AS jam_selesai',
+                'dp.keluhan AS keluhan',
+                'dp.no_antrian AS no_antrian',
+                'periksa.tgl_periksa AS tanggal_periksa',
+                'periksa.catatan AS catatan',
+                'periksa.biaya_periksa AS biaya_periksa',
+            ])
+            ->leftJoin('pasien AS p', 'dp.id_pasien', '=', 'p.id')
+            ->leftJoin('jadwal_periksa AS jp', 'dp.id_jadwal', '=', 'jp.id')
+            ->leftJoin('periksa AS periksa', 'dp.id', '=', 'periksa.id_daftar_poli')
+            ->leftJoin('dokter AS d', 'jp.id_dokter', '=', 'd.id')
+            ->leftJoin('poli AS poli', 'd.id_poli', '=', 'poli.id')
+            ->where('dp.id', $id)
+            ->first();
 
         // Pastikan pendaftaran poli milik pasien yang sedang login
         if ($daftarPoli->id_pasien != session('pasien_id')) {
