@@ -94,7 +94,7 @@
                             <div class="carousel-item active">
                                 <div class="text-center">
                                     <img src="{{ asset('assets/user1.jpeg') }}" class="rounded-circle mb-3" alt="User 1" width="100" height="100">
-                                    <h5>Anom Innadanuansyah</h5>
+                                    <h5>Fadly Sofyansyah</h5>
                                     <p class="fst-italic">"Sistem pendaftaran ini sangat memudahkan saya sebagai pasien. Prosesnya cepat dan mudah."</p>
                                 </div>
                             </div>
